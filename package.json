@@ -4,6 +4,7 @@
   "description": "Simple social network like app",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js"
   },
   "author": "Alden Obradovic",
   "license": "ISC",
