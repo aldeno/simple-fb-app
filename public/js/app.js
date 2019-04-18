@@ -4,6 +4,7 @@ var app = angular.module('app', ['ngRoute']);
 app.config(function($routeProvider) {
     $routeProvider
     .when("/", {
+        redirectTo: '/login',
         templateUrl: "./templates/main.html",
         controller: 'mainCtrl'
     })
