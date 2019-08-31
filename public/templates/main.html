@@ -1,8 +1,102 @@
-<div>
-    <div>
-        <a href="#!/login">Login</a>
+<div class="row">
+    <div class="col-md-9">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="card text-right">
+                    <div class="card-body">
+                        <textarea style="width: 100%;" placeholder="What's on your mind?"
+                            ng-model="newPost.text"></textarea>
+                        <input style="width: 100%;" type="text" placeholder="Paste a link to an image"
+                            ng-model="newPost.image" />
+                        <a href="" id="btn-post" style="margin-top: 1em;" class="btn btn-primary" ng-click="post()"
+                            ng-if="newPost.text || newPost.image">Post</a>
+                    </div>
+                </div>
+                <div class="card" ng-repeat="p in posts" style="margin-top: 2em;">
+                    <!--
+                <img src="..." class="card-img-top" alt="...">-->
+                    <div class="card-body">
+                        <div class="row">
+                            <h5 class="card-title col">{{p.user}}</h5>
+                            <a href="" class="" ng-if="user._id == p.userId" ng-click="removePost(p)"><i
+                                    class="fa fa-trash" aria-hidden="true"></i></a>
+                        </div>
+                        <!--
+                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>-->
+                        <p class="card-text">{{p.content}}</p>
+                    </div>
+                    <img src="{{p.image}}" class="card-img-top" alt="..." ng-if="p.image">
+                    <a style="margin: 1em;width:100%;" href="" class="card-link">
+                        <span class="far fa-thumbs-up " style="{{p.liked ? 'color: gray; cursor: default;' : ''}} "
+                            ng-click="like(p)"></span>
+                        <small style="margin: 2px; {{p.liked ? 'cursor: default;' : ''}} ">{{p.likesNumber}}</small>
+                        <span style="margin: 1em;" class="far fa-comment-dots text-right"
+                            ng-click="showComment(p)"></span>
+                        <small style="margin: 2px; {{p.liked ? 'cursor: default;' : ''}} ">{{p.commentsNumber}}</small>
+                    </a>
+
+                    <div>
+                        <input style="width: 100%;" type="text" placeholder="Enter a comment..." ng-if="p.commentShown"
+                            ng-model="p.comment" />
+                        <a href="" id="btn-post" style="margin-top: 1em;" class="btn btn-primary"
+                            ng-click="addComment(p)" ng-if="p.comment">Comment</a>
+                        <div class="list-group" ng-if="p.commentShown">
+                            <a href="#" class="list-group-item list-group-item-action" ng-repeat="c in p.comments">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">{{c.user}}</h5>
+                                    <small>{{c.date}}</small>
+                                </div>
+                                <p class="mb-1">{{c.comment}}</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
     </div>
-    <div>
-        This is not implemented yet...Here should be login page...
+    <div class="col-md-3">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <input type="text" placeholder="Search users" ng-model="usersFilter">
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center"
+                ng-repeat="usr in allUsers | filter:usersFilter" ng-if="usersFilter">
+                {{usr.firstName + ' ' + usr.lastName}}
+                <a href="" class="badge badge-primary badge-pill" ng-if="!usr.friend" ng-click="addFriend(usr)">Add</a>
+                <a href="" ng-if="usr.friend"> <span class="badge badge-primary badge-pill" ng-click="removeFriend(usr)"
+                        style="margin: 1px;">Remove</span><span class="badge badge-primary badge-pill"
+                        ng-click="startChat(usr)" style="margin: 1px;">Chat</span></a>
+            </li>
+        </ul>
     </div>
+</div>
+
+<div id="chat" ng-if="chat.user">
+    <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center active"
+            ng-click="chat.collapsed = !chat.collapsed">
+            <div class="col col-chat-title">
+                {{chat.user.firstName + ' ' + chat.user.lastName}}
+                <i class="chat-close far fa-window-close float-right" ng-click="closeChat()"></i>
+            </div>
+        </li>
+        <span class="messages" ng-if="!chat.collapsed">
+            <li class="list-group-item d-flex justify-content-between align-items-center"
+                ng-repeat="m in chat.messages">
+
+                <p class="chat-message-p" ng-if="m.senderId == user._id">
+                    <span class="badge badge-primary badge-pill">ME</span>
+                    <span class="chat-message-span">{{m.message}}</span>
+                </p>
+                <p class="chat-message-p" ng-if="m.senderId != user._id">
+                    <span> {{m.message}}</span>
+                    <span class="badge badge-primary badge-pill chat-message-span">{{m.sender}}</span>
+                </p>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <input type="text" class="chat-message" placeholder="Enter a message" ng-model="chat.message"
+                    ng-keypress="sendMessage($event)">
+            </li>
+        </span>
+    </ul>
 </div>

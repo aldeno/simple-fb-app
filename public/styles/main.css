@@ -5,3 +5,31 @@
     display: flex;
     align-items: center;
   }
+
+  #chat{
+    width: 300px;
+    position: fixed;
+    right: 10px;
+    bottom: 0px;
+    overflow-y: scroll;
+  }
+
+  .col-chat-title{
+    padding: 0px !important;
+  }
+
+  .chat-close{
+    cursor: pointer;
+  }
+
+  .chat-message{
+    width: 100%;
+  }
+
+  .chat-message-p{
+    width: 100%;
+  }
+
+  .chat-message-span{
+    float: right;
+  }
