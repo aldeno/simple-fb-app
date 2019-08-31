@@ -1,5 +1,6 @@
 app.service('postSvc', function ($http, $location) {
-    var serverUrl = 'http://localhost:3000/';
+    var serverUrl = 'https://sample-social-network.herokuapp.com';
+    serverUrl = "https://sample-social-network.herokuapp.com";
 
     return {
         post: function (userId, content, image, user) {

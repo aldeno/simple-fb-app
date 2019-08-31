@@ -2,6 +2,8 @@ app.service('loginSvc', function ($http, $location) {
     var serverUrl = 'http://localhost:3000/';
     var AUTH_KEY = "social_credentials";
 
+    serverUrl = "https://sample-social-network.herokuapp.com";
+
     return {
         checkCredentials: function (username, password) {
             var postObj = {
